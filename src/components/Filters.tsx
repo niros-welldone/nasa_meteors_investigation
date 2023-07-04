@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {AutocompleteYear, Input} from '../components';
 import {Data, Filter, YearsList} from '../types';
-import {getFilteredData} from "../helper";
+import {getFilteredData} from '../helper';
 
 const Container = styled.div`
   display: flex;
@@ -22,11 +22,11 @@ const Filters = ({data, filters, yearsList, setFilters}: Props) => {
 
     useEffect(() => {
         const filteredData = getFilteredData(data, filters);
-        if (!filteredData.length) {
+        if (!filteredData.length && year && mass) {
             const found = data.find((item) => (item.mass || 0) >= (mass || 0));
             if (found) {
                 const fullYear = new Date(found.year || '').getFullYear();
-                if (year && (fullYear !== year)) {
+                if (fullYear !== year) {
                     alert('The mass was not found, jumping to first-year where there is a mass that fits the criteria');
                     setYear(new Date(found.year || '').getFullYear());
                 }

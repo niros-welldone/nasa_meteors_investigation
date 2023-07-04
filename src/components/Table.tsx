@@ -1,8 +1,8 @@
 import React, {useMemo} from 'react';
 import styled from 'styled-components';
 import {Empty} from '../components';
-import {Data, Filter, Geolocation} from "../types";
-import {getFilteredData} from "../helper";
+import {Data, Filter, Geolocation} from '../types';
+import {getFilteredData} from '../helper';
 
 const Container = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ interface Props {
 }
 
 const Table = ({data, filters}: Props) => {
-    const filteredData = useMemo(() => getFilteredData(data, filters), [data, filters]);
+    const filteredData = useMemo<Data[]>(() => getFilteredData(data, filters), [data, filters]);
     return (
         <Container>
             <Title>Found {filteredData.length} meteors!</Title>
@@ -62,8 +62,7 @@ const Table = ({data, filters}: Props) => {
                     {filteredData.map((item, index) => (
                         <tr key={index}>
                             {config.map(({key, renderer}) => {
-                                // @ts-ignore
-                                const value = item[key];
+                                const value: any = item[key as keyof Data];
                                 return (
                                     <td key={key}>{renderer ? renderer(value) : value}</td>
                                 )
